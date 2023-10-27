@@ -1,6 +1,5 @@
 import argparse
-from book_app.database import create_database, add_book, del_book, list_book
-
+from book_app.database import create_database, add_book, del_book, list_book, find_book_info_by_isbn
 
 parser = argparse.ArgumentParser(description="Book manager")
 
@@ -8,6 +7,10 @@ subparsers = parser.add_subparsers(title="Subcommands", dest="subcommand")
 
 # Subcommand to create a database
 database_parser = subparsers.add_parser("database", help="Create database")
+
+# Subcommand to search a book in Google API
+search_parser = subparsers.add_parser("search", help="Search for a book in Google API")
+search_parser.add_argument("isbn", type=str, help="Book to search")
 
 # Subcommand to add a book
 add_parser = subparsers.add_parser("add", help="Add a new book")
@@ -26,6 +29,8 @@ args = parser.parse_args()
 if __name__ == '__main__':
     if args.subcommand == "database":
         create_database()
+    elif args.subcommand == "search":
+        find_book_info_by_isbn(args.isbn)
     elif args.subcommand == "add":
         add_book(args.name_of_the_book, args.author)
     elif args.subcommand == "del":
